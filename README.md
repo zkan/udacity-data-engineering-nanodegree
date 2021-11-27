@@ -1,2 +1,1 @@
-# udaciy-data-engineering-nanodegree
-Udacity Data Engineering Nanodegree
+# Udacity Data Engineering Nanodegree
