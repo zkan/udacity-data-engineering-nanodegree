@@ -11,7 +11,14 @@ are listening to.
 
 ## How to Run this Project
 
-I use [Poetry](https://python-poetry.org/) for managing Python dependencies,
+Before we start, we'll need to run the Postgres database. In this project,
+I set up the Docker Compose for it, so run the following command first.
+
+```bash
+docker-compose up
+```
+
+For managing Python dependencies, I use [Poetry](https://python-poetry.org/),
 so please install it first.
 
 ### Installing Dependencies
