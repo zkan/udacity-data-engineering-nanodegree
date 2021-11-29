@@ -10,7 +10,7 @@ are listening to.
 ## How to Run this Project
 
 Before we start running the ETL process, we'll need to run the Postgres
-database first. Here I set up the Docker Compose for it. To start the 
+database first. Here I set up the Docker Compose for it. To start the
 Postgres, run:
 
 ```bash
@@ -35,8 +35,14 @@ that, please follow the steps below.
 
     We can use the command above to refresh the database as well.
 
-1. Finally, we perform the ETL process.
+1. Then we perform the ETL process.
 
     ```bash
     poetry run python etl.py
+    ```
+
+1. Finally, check data qualty by running:
+
+    ```bash
+    poetry run pytest -v
     ```
