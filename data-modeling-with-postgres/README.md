@@ -1,34 +1,42 @@
-# Data Modeling with Postgres
+# Song Play Analysis
 
 I define the fact and dimension tables for a star schema for a song play
 analysis, and write an ETL pipeline to transform data from files and load
 into the tables in Postgres using Python and SQL.
-
-## Song Play Analysis
 
 In this project, we're interested in understanding what songs users
 are listening to.
 
 ## How to Run this Project
 
-Before we start, we'll need to run the Postgres database. In this project,
-I set up the Docker Compose for it, so run the following command first.
+Before we start running the ETL process, we'll need to run the Postgres
+database first. Here I set up the Docker Compose for it. To start the 
+Postgres, run:
 
 ```bash
 docker-compose up
 ```
 
-For managing Python dependencies, I use [Poetry](https://python-poetry.org/),
-so please install it first.
+This project uses the [Poetry](https://python-poetry.org/) for managing
+Python dependencies. Kindly go to the website and install it first. After
+that, please follow the steps below.
 
-### Installing Dependencies
+1. Install the dependencies.
 
-```bash
-poetry install
-```
+    ```bash
+    poetry install
+    ```
 
-### Creating Tables
+1. Initialize all of the tables.
 
-```bash
-poetry run python create_tables.py
-```
+    ```bash
+    poetry run python create_tables.py
+    ```
+
+    We can use the command above to refresh the database as well.
+
+1. Finally, we perform the ETL process.
+
+    ```bash
+    poetry run python etl.py
+    ```
