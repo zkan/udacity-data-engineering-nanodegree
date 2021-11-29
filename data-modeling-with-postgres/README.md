@@ -14,7 +14,7 @@ database first. Here I set up the Docker Compose for it. To start the
 Postgres, run:
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 This project uses the [Poetry](https://python-poetry.org/) for managing
@@ -46,3 +46,9 @@ that, please follow the steps below.
     ```bash
     poetry run pytest -v
     ```
+
+To clean up the project, run:
+
+```bash
+docker-compose down
+```
