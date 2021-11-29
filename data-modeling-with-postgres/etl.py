@@ -1,8 +1,8 @@
-import os
 import glob
+import os
 
-import psycopg2
 import pandas as pd
+import psycopg2
 
 from sql_queries import (
     artist_table_insert,
