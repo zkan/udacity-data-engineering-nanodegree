@@ -9,7 +9,9 @@ def potgres_connection():
     )
     cur = conn.cursor()
 
-    return conn, cur
+    yield conn, cur
+
+    conn.close()
 
 
 def test_it_should_be_seventy_one_rows_in_song_where_artist_id_is_not_null(
@@ -22,7 +24,6 @@ def test_it_should_be_seventy_one_rows_in_song_where_artist_id_is_not_null(
     """
     cur.execute(select)
     results = cur.fetchall()
-    conn.close()
 
     assert len(results) == 71
 
@@ -41,7 +42,6 @@ def test_it_should_be_one_row_where_both_song_id_and_artist_id_are_not_null(
     """
     cur.execute(select)
     results = cur.fetchall()
-    conn.close()
 
     assert len(results) == 1
 
