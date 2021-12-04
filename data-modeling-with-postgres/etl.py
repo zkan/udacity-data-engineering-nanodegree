@@ -1,5 +1,6 @@
 import glob
 import os
+from typing import Callable, NewType
 
 import pandas as pd
 import psycopg2
@@ -14,7 +15,24 @@ from sql_queries import (
 )
 
 
-def process_song_file(cur, filepath):
+PostgresCursor = NewType("PostgresCursor", psycopg2.extensions.cursor)
+PostgresConn = NewType("PostgresConn", psycopg2.extensions.connection)
+
+
+def process_song_file(cur: PostgresCursor, filepath: str) -> None:
+    """
+    Description: This function is responsible for processing a song file
+    and inserting song data into the database.
+
+    Arguments:
+        cur: the cursor object.
+        conn: connection to the database.
+        filepath: song data file path.
+
+    Returns:
+        None
+    """
+
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -39,7 +57,20 @@ def process_song_file(cur, filepath):
     cur.execute(artist_table_insert, artist_data)
 
 
-def process_log_file(cur, filepath):
+def process_log_file(cur: PostgresCursor, filepath: str) -> None:
+    """
+    Description: This function is responsible for processing a log data file
+    and inserting data into the database.
+
+    Arguments:
+        cur: the cursor object.
+        conn: connection to the database.
+        filepath: log data file path.
+
+    Returns:
+        None
+    """
+
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -106,7 +137,27 @@ def process_log_file(cur, filepath):
         cur.execute(songplay_table_insert, songplay_data)
 
 
-def process_data(cur, conn, filepath, func):
+def process_data(
+    cur: PostgresCursor,
+    conn: PostgresConn,
+    filepath: str,
+    func: Callable[[PostgresCursor, str], None],
+) -> None:
+    """
+    Description: This function is responsible for listing the files in a directory,
+    and then executing the ingest process for each file according to the function
+    that performs the transformation to save it to the database.
+
+    Arguments:
+        cur: the cursor object.
+        conn: connection to the database.
+        filepath: log data or song data file path.
+        func: function that transforms the data and inserts it into the database.
+
+    Returns:
+        None
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):

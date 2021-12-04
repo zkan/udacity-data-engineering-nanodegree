@@ -1,9 +1,15 @@
+from typing import NewType
+
 import psycopg2
 
 from sql_queries import create_table_queries, drop_table_queries
 
 
-def create_database():
+PostgresCursor = NewType("PostgresCursor", psycopg2.extensions.cursor)
+PostgresConn = NewType("PostgresConn", psycopg2.extensions.connection)
+
+
+def create_database() -> None:
     """
     - Creates and connects to the sparkifydb
     - Returns the connection and cursor to sparkifydb
@@ -32,7 +38,7 @@ def create_database():
     return cur, conn
 
 
-def drop_tables(cur, conn):
+def drop_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
     """
     Drops each table using the queries in `drop_table_queries` list.
     """
@@ -41,7 +47,7 @@ def drop_tables(cur, conn):
         conn.commit()
 
 
-def create_tables(cur, conn):
+def create_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
     """
     Creates each table using the queries in `create_table_queries` list.
     """
