@@ -7,6 +7,15 @@ into the tables in Postgres using Python and SQL.
 In this project, we're interested in understanding what songs users
 are listening to.
 
+## ER Diagram
+
+The ER diagram below shows the Sparkify database schema design with the
+tables and the columns.
+
+![Sparkify Database Schema](./img/sparkifydb-er-diagram.png)
+
+This diagram is created by [dbdiagram.io](https://dbdiagram.io/).
+
 ## How to Run this Project
 
 Before we start running the ETL process, we'll need to run the Postgres
