@@ -2,12 +2,45 @@
 
 ## Project Overview
 
+In this project, we model songs and user activity data and develop an ETL pipeline using Python to transfer
+and insert the data into Apache Cassandra tables.
+
 ## Database Schema
 
 ## Files and What They Do
 
 | Name | Description |
 | - | - |
-| `.py` | A Python script that ... |
+| `data_modeling_with_cassandra.ipynb` |  A Jupyter notebook file that runs the ETL pipeline for processing the event files and loading to Apache Cassandra tables |
+| `docker-compose.yaml` | A Docker Compose file that runs a Cassandra cluster used in this project |
+| `pyproject.toml` | A file that contains Python package dependencies managed by Poetry for this code repository |
 
 ## Instruction on Running the Python Scripts
+
+Before we start running the ETL pipeline, we will need to start a Cassandra cluster
+first. Run:
+
+```bash
+docker-compose up -d
+```
+
+This project uses the [Poetry](https://python-poetry.org/) for managing Python dependencies.
+Kindly go to the website and install it first. After that, please follow the steps below.
+
+1. Install the dependencies.
+
+    ```bash
+    poetry install
+    ```
+
+1. Start the Jupyter server to work on the notebook in this project.
+
+    ```bash
+    poetry run jupyter notebook
+    ```
+
+To stop the Cassandra cluster, run:
+
+```bash
+docker-compose down
+```
