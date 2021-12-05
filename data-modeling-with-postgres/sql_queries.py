@@ -98,6 +98,7 @@ song_table_insert = """
         year,
         duration
     ) VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT (song_id) DO NOTHING
 """
 
 artist_table_insert = """
