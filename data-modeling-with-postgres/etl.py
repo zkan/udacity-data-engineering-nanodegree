@@ -101,14 +101,14 @@ def process_log_file(cur: PostgresCursor, filepath: str) -> None:
     )
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
-    for i, row in time_df.iterrows():
+    for _, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
     user_df = df[["userId", "firstName", "lastName", "gender", "level"]]
 
     # insert user records
-    for i, row in user_df.iterrows():
+    for _, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
     # insert songplay records
