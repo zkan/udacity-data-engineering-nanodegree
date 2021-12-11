@@ -12,6 +12,7 @@ and insert the data into Apache Cassandra tables.
 | Name | Description |
 | - | - |
 | `data_modeling_with_cassandra.ipynb` |  A Jupyter notebook file that runs the ETL pipeline for processing the event files and loading to Apache Cassandra tables |
+| `Project_1B_ Project_Template.ipynb` |  A Jupyter notebook file that is used as a project template |
 | `docker-compose.yaml` | A Docker Compose file that runs a Cassandra cluster used in this project |
 | `pyproject.toml` | A file that contains Python package dependencies managed by Poetry for this code repository |
 
