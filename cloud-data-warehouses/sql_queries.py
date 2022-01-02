@@ -29,7 +29,7 @@ staging_songs_table_create = """
 
 songplay_table_create = """
     CREATE TABLE IF NOT EXISTS songplays (
-        songplay_id serial primary key,
+        songplay_id IDENTITY(0, 1) primary key,
         start_time timestamp not null,
         user_id int not null,
         level varchar,
