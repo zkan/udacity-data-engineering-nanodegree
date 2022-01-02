@@ -19,17 +19,45 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 staging_events_table_create = """
     CREATE TABLE IF NOT EXISTS staging_events (
+        artist varchar,
+        auth varchar,
+        firstName varchar,
+        gender varchar,
+        itemInSession int,
+        lastName varchar,
+        length numeric,
+        level varchar,
+        location varchar,
+        method varchar,
+        page varchar,
+        registration numeric,
+        sessionId int,
+        song varchar,
+        status int,
+        ts bigint,
+        userAgent varchar,
+        userId int
     )
 """
 
 staging_songs_table_create = """
     CREATE TABLE IF NOT EXISTS staging_songs (
+        num_songs int,
+        artist_id varchar,
+        artist_latitude numeric,
+        artist_longitude numeric,
+        artist_location varchar,
+        artist_name varchar,
+        song_id varchar,
+        title varchar,
+        duration numeric,
+        year int
     )
 """
 
 songplay_table_create = """
     CREATE TABLE IF NOT EXISTS songplays (
-        songplay_id IDENTITY(0, 1) primary key,
+        songplay_id int IDENTITY(0, 1) primary key,
         start_time timestamp not null,
         user_id int not null,
         level varchar,
@@ -85,15 +113,24 @@ time_table_create = """
 
 # STAGING TABLES
 
-staging_events_copy = (
-    """
+staging_events_copy = f"""
+    COPY staging_events FROM '{config["S3"]["LOG_DATA"]}'
+    CREDENTIALS 'aws_iam_role={config["IAM_ROLE"]["ARN"]}'
+    format as json '{config["S3"]["LOG_JSONPATH"]}' dateformat 'auto'
+    region 'us-west-2'
 """
-).format()
 
-staging_songs_copy = (
-    """
+staging_songs_copy = f"""
+    COPY staging_songs FROM '{config["S3"]["SONG_DATA"]}'
+    CREDENTIALS 'aws_iam_role={config["IAM_ROLE"]["ARN"]}'
+    format as json 'auto' region 'us-west-2'
 """
-).format()
+
+staging_songs_copy_one_file = f"""
+    COPY staging_songs FROM 's3://udacity-dend/song_data/A/A/A'
+    CREDENTIALS 'aws_iam_role={config["IAM_ROLE"]["ARN"]}'
+    format as json 'auto' region 'us-west-2'
+"""
 
 # FINAL TABLES
 
@@ -132,7 +169,8 @@ drop_table_queries = [
     artist_table_drop,
     time_table_drop,
 ]
-copy_table_queries = [staging_events_copy, staging_songs_copy]
+# copy_table_queries = [staging_events_copy, staging_songs_copy]
+copy_table_queries = [staging_events_copy, staging_songs_copy_one_file]
 insert_table_queries = [
     songplay_table_insert,
     user_table_insert,
