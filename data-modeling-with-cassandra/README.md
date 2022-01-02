@@ -5,8 +5,6 @@
 In this project, we model songs and user activity data and develop an ETL pipeline using Python to transfer
 and insert the data into Apache Cassandra tables.
 
-## Database Schema
-
 ## Files and What They Do
 
 | Name | Description |
