@@ -160,6 +160,24 @@ user_table_insert = """
 """
 
 song_table_insert = """
+    INSERT INTO
+      songs (
+        song_id,
+        title,
+        artist_id,
+        year,
+        duration
+      )
+    SELECT
+      DISTINCT song_id,
+      title,
+      artist_id,
+      year,
+      duration
+    FROM
+      staging_songs
+    WHERE
+      song_id NOT IN (SELECT DISTINCT song_id FROM songs)
 """
 
 artist_table_insert = """
@@ -193,7 +211,7 @@ copy_table_queries = [staging_events_copy, staging_songs_copy_one_file]
 insert_table_queries = [
     # songplay_table_insert,
     user_table_insert,
-    # song_table_insert,
+    song_table_insert,
     # artist_table_insert,
     # time_table_insert,
 ]
