@@ -24,6 +24,7 @@ and the dimension tables:
 | `dwh.cfg` | A configuration file that contains credentials to connect to Redshift |
 | `create_table.py` | A Python script that drops and creates fact and dimension tables for the star schema in Redshift |
 | `etl.py` | A Python script that processes data and loads them into tables in Redshift |
+| `etl_with_small_data.py` | A Python script that processes (small) data and loads them into tables in Redshift |
 | `sql_queries.py` | A Python script that contains all SQL queryes and is imported into other files |
 | `pyproject.toml` | A file that contains Python package dependencies managed by Poetry for this code repository |
 
@@ -50,4 +51,10 @@ Kindly go to the website and install it first. After that, please follow the ste
 
     ```bash
     poetry run python etl.py
+    ```
+
+1. [Optional] Since the actual data is quite large, it may take very long time to process. For testing purpose, we can run the ETL process with a small data by running the following command instead.
+
+    ```bash
+    poetry run python etl_with_small_data.py
     ```
