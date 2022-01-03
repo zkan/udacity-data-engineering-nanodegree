@@ -137,6 +137,36 @@ staging_songs_copy_one_file = f"""
 # FINAL TABLES
 
 songplay_table_insert = """
+    INSERT INTO
+      songplays (
+        start_time,
+        user_id,
+        level,
+        song_id,
+        artist_id,
+        session_id,
+        location,
+        user_agent
+      )
+    SELECT
+      ts,
+      e.userid,
+      e.level,
+      s.song_id,
+      s.artist_id,
+      e.sessionid,
+      e.location,
+      e.useragent
+    FROM
+      staging_events e
+    JOIN
+      staging_songs s
+    ON
+      e.artist = s.artist_name
+      AND e.song = s.title
+    WHERE
+      e.page = 'NextSong'
+      AND ts NOT IN (SELECT DISTINCT start_time FROM songplays)
 """
 
 user_table_insert = """
@@ -251,7 +281,7 @@ drop_table_queries = [
 # copy_table_queries = [staging_events_copy, staging_songs_copy]
 copy_table_queries = [staging_events_copy, staging_songs_copy_one_file]
 insert_table_queries = [
-    # songplay_table_insert,
+    songplay_table_insert,
     user_table_insert,
     song_table_insert,
     artist_table_insert,
