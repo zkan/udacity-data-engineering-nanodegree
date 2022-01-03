@@ -34,7 +34,7 @@ staging_events_table_create = """
         sessionId int,
         song varchar,
         status int,
-        ts bigint,
+        ts timestamp,
         userAgent varchar,
         userId int
     )
@@ -116,14 +116,16 @@ time_table_create = """
 staging_events_copy = f"""
     COPY staging_events FROM '{config["S3"]["LOG_DATA"]}'
     CREDENTIALS 'aws_iam_role={config["IAM_ROLE"]["ARN"]}'
-    format as json '{config["S3"]["LOG_JSONPATH"]}' dateformat 'auto'
+    format as json '{config["S3"]["LOG_JSONPATH"]}'
+    timeformat 'epochmillisecs'
     region 'us-west-2'
 """
 
 staging_songs_copy = f"""
     COPY staging_songs FROM '{config["S3"]["SONG_DATA"]}'
     CREDENTIALS 'aws_iam_role={config["IAM_ROLE"]["ARN"]}'
-    format as json 'auto' region 'us-west-2'
+    format as json 'auto'
+    region 'us-west-2'
 """
 
 staging_songs_copy_one_file = f"""
