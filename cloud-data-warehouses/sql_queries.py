@@ -138,6 +138,25 @@ songplay_table_insert = """
 """
 
 user_table_insert = """
+    INSERT INTO
+      users (
+        user_id,
+        first_name,
+        last_name,
+        gender,
+        level
+      )
+    SELECT
+      DISTINCT userid,
+      firstname,
+      lastname,
+      gender,
+      level
+    FROM
+      staging_events
+    WHERE
+      page = 'NextSong'
+      AND userid NOT IN (SELECT DISTINCT user_id FROM users)
 """
 
 song_table_insert = """
@@ -172,9 +191,9 @@ drop_table_queries = [
 # copy_table_queries = [staging_events_copy, staging_songs_copy]
 copy_table_queries = [staging_events_copy, staging_songs_copy_one_file]
 insert_table_queries = [
-    songplay_table_insert,
+    # songplay_table_insert,
     user_table_insert,
-    song_table_insert,
-    artist_table_insert,
-    time_table_insert,
+    # song_table_insert,
+    # artist_table_insert,
+    # time_table_insert,
 ]
