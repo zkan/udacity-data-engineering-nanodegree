@@ -278,8 +278,8 @@ drop_table_queries = [
     artist_table_drop,
     time_table_drop,
 ]
-# copy_table_queries = [staging_events_copy, staging_songs_copy]
-copy_table_queries = [staging_events_copy, staging_songs_copy_one_file]
+copy_table_queries = [staging_events_copy, staging_songs_copy]
+copy_small_table_queries = [staging_events_copy, staging_songs_copy_one_file]
 insert_table_queries = [
     songplay_table_insert,
     user_table_insert,
