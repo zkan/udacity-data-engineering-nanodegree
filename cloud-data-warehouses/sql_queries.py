@@ -181,6 +181,24 @@ song_table_insert = """
 """
 
 artist_table_insert = """
+    INSERT INTO
+      artists (
+        artist_id,
+        name,
+        location,
+        latitude,
+        longitude
+      )
+    SELECT
+      DISTINCT artist_id,
+      artist_name,
+      artist_location,
+      artist_latitude,
+      artist_longitude
+    FROM
+      staging_songs
+    WHERE
+      artist_id NOT IN (SELECT DISTINCT artist_id FROM artists)
 """
 
 time_table_insert = """
@@ -212,6 +230,6 @@ insert_table_queries = [
     # songplay_table_insert,
     user_table_insert,
     song_table_insert,
-    # artist_table_insert,
+    artist_table_insert,
     # time_table_insert,
 ]
