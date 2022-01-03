@@ -204,6 +204,28 @@ artist_table_insert = """
 """
 
 time_table_insert = """
+    INSERT INTO
+      time (
+        start_time,
+        hour,
+        day,
+        week,
+        month,
+        year,
+        weekday
+      )
+    SELECT
+      DISTINCT ts,
+      EXTRACT(hour FROM ts),
+      EXTRACT(day FROM ts),
+      EXTRACT(week FROM ts),
+      EXTRACT(month FROM ts),
+      EXTRACT(year FROM ts),
+      EXTRACT(weekday FROM ts)
+    FROM
+      staging_events
+    WHERE
+      ts NOT IN (SELECT DISTINCT start_time FROM time)
 """
 
 # QUERY LISTS
@@ -233,5 +255,5 @@ insert_table_queries = [
     user_table_insert,
     song_table_insert,
     artist_table_insert,
-    # time_table_insert,
+    time_table_insert,
 ]
