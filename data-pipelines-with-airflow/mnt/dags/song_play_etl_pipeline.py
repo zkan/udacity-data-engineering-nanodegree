@@ -89,8 +89,26 @@ with DAG(
     run_quality_checks = DataQualityOperator(
         task_id="Run_data_quality_checks",
         redshift_conn_id="redshift",
-        table="songplays",
-        column="playid",
+        checks=[
+            {
+                "test_case": "Column playid in table songplays should not have NULL values",
+                "test_sql": "SELECT COUNT(playid) FROM songplays WHERE playid IS NULL",
+                "expected_result": 0,
+                "comparison": "=",
+            },
+            {
+                "test_case": "Table songs should have records",
+                "test_sql": "SELECT COUNT(*) FROM songs",
+                "expected_result": 0,
+                "comparison": ">",
+            },
+            {
+                "test_case": "Column duration should have value less than 100000",
+                "test_sql": "SELECT MAX(duration) FROM songs",
+                "expected_result": 100000,
+                "comparison": "<",
+            },
+        ],
     )
 
     end_operator = DummyOperator(task_id="Stop_execution")

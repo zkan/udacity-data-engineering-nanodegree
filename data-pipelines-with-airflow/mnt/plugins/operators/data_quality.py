@@ -8,25 +8,24 @@ class DataQualityOperator(BaseOperator):
     ui_color = "#89DA59"
 
     @apply_defaults
-    def __init__(self, redshift_conn_id="", table="", column="", *args, **kwargs):
+    def __init__(self, redshift_conn_id="", checks=[], *args, **kwargs):
 
         super(DataQualityOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
-        self.table = table
-        self.column = column
+        self.checks = checks
 
     def execute(self, context):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
-        records = redshift.get_records(
-            f"SELECT COUNT({self.column}) FROM {self.table} WHERE {self.column} IS NULL"
-        )
 
-        num_records = records[0][0]
-        if num_records != 0:
-            raise ValueError(
-                f"Data quality check failed. Column {self.column} in {self.table} has NULL values"
-            )
+        for each in self.checks:
+            records = redshift.get_records(each["test_sql"])
+            num_records = records[0][0]
+            message = f"Data quality check for test case '{each['test_case']}' failed."
+            if each["comparison"] == "=" and num_records != each["expected_result"]:
+                raise ValueError(message + " failed.")
+            elif each["comparison"] == ">" and num_records <= each["expected_result"]:
+                raise ValueError(message + " failed.")
+            elif each["comparison"] == "<" and num_records >= each["expected_result"]:
+                raise ValueError(message + " failed.")
 
-        self.log.info(
-            f"Data quality on table {self.table} check passed. No NULL values in the column {self.column}."
-        )
+        self.log.info("All data quality checks passed.")
