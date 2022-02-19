@@ -4,8 +4,8 @@ from operators.load_dimension import LoadDimensionOperator
 from operators.data_quality import DataQualityOperator
 
 __all__ = [
-    'StageToRedshiftOperator',
-    'LoadFactOperator',
-    'LoadDimensionOperator',
-    'DataQualityOperator'
+    "StageToRedshiftOperator",
+    "LoadFactOperator",
+    "LoadDimensionOperator",
+    "DataQualityOperator",
 ]
