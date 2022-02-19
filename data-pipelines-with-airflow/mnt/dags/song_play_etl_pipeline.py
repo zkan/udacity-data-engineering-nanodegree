@@ -34,9 +34,25 @@ with DAG(
 
     start_operator = DummyOperator(task_id="Begin_execution")
 
-    stage_events_to_redshift = StageToRedshiftOperator(task_id="Stage_events")
+    stage_events_to_redshift = StageToRedshiftOperator(
+        task_id="Stage_events",
+        redshift_conn_id="redshift",
+        iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
+        table="staging_events",
+        s3_bucket="udacity-dend",
+        s3_key="log_data",
+        json_path="log_json_path.json",
+        time_format="epochmillisecs",
+    )
 
-    stage_songs_to_redshift = StageToRedshiftOperator(task_id="Stage_songs")
+    stage_songs_to_redshift = StageToRedshiftOperator(
+        task_id="Stage_songs",
+        redshift_conn_id="redshift",
+        iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
+        table="staging_songs",
+        s3_bucket="udacity-dend",
+        s3_key="song_data",
+    )
 
     load_songplays_table = LoadFactOperator(task_id="Load_songplays_fact_table")
 
