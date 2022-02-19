@@ -54,22 +54,39 @@ with DAG(
         s3_key="song_data",
     )
 
-    load_songplays_table = LoadFactOperator(task_id="Load_songplays_fact_table")
+    load_songplays_table = LoadFactOperator(
+        task_id="Load_songplays_fact_table",
+        redshift_conn_id="redshift",
+        insert_sql=SqlQueries.songplay_table_insert,
+    )
 
     load_user_dimension_table = LoadDimensionOperator(
-        task_id="Load_user_dim_table"
+        task_id="Load_user_dim_table",
+        redshift_conn_id="redshift",
+        table="users",
+        insert_sql=SqlQueries.user_table_insert,
+        truncate=True,
     )
 
     load_song_dimension_table = LoadDimensionOperator(
-        task_id="Load_song_dim_table"
+        task_id="Load_song_dim_table",
+        redshift_conn_id="redshift",
+        table="songs",
+        insert_sql=SqlQueries.song_table_insert,
     )
 
     load_artist_dimension_table = LoadDimensionOperator(
-        task_id="Load_artist_dim_table"
+        task_id="Load_artist_dim_table",
+        redshift_conn_id="redshift",
+        table="artists",
+        insert_sql=SqlQueries.artist_table_insert,
     )
 
     load_time_dimension_table = LoadDimensionOperator(
-        task_id="Load_time_dim_table"
+        task_id="Load_time_dim_table",
+        redshift_conn_id="redshift",
+        table="time",
+        insert_sql=SqlQueries.time_table_insert,
     )
 
     run_quality_checks = DataQualityOperator(task_id="Run_data_quality_checks")
