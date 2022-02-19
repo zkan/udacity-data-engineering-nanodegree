@@ -86,7 +86,7 @@ class SqlQueries:
                 artistid,
                 name,
                 location,
-                lattitude,
+                latitude,
                 longitude
             )
         SELECT
