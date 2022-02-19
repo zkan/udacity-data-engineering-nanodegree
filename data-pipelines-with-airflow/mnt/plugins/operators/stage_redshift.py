@@ -1,5 +1,4 @@
 from airflow.models import BaseOperator
-from airflow.providers.amazon.aws.hooks.base_aws import AwsBaseHook
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.decorators import apply_defaults
 
@@ -36,8 +35,6 @@ class StageToRedshiftOperator(BaseOperator):
     def execute(self, context):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
 
-        self.log.info(f"Context: {context}")
-
         self.log.info("Clearing data from destination Redshift table")
         redshift.run(f"DELETE FROM {self.table}")
 
@@ -61,4 +58,5 @@ class StageToRedshiftOperator(BaseOperator):
                 REGION '{self.region}'
             """
 
+        self.log.info("Loading data from S3 to Redshift table")
         redshift.run(copy_sql)
