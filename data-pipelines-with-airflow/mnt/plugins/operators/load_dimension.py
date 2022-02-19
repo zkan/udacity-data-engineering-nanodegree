@@ -15,7 +15,7 @@ class LoadDimensionOperator(BaseOperator):
         insert_sql="",
         truncate=False,
         *args,
-        **kwargs
+        **kwargs,
     ):
 
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)

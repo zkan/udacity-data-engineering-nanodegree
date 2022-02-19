@@ -20,7 +20,7 @@ class StageToRedshiftOperator(BaseOperator):
         time_format="",
         region="us-west-2",
         *args,
-        **kwargs
+        **kwargs,
     ):
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
