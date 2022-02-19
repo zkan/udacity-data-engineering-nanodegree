@@ -86,7 +86,12 @@ with DAG(
         insert_sql=SqlQueries.time_table_insert,
     )
 
-    run_quality_checks = DataQualityOperator(task_id="Run_data_quality_checks")
+    run_quality_checks = DataQualityOperator(
+        task_id="Run_data_quality_checks",
+        redshift_conn_id="redshift",
+        table="songplays",
+        column="playid",
+    )
 
     end_operator = DummyOperator(task_id="Stop_execution")
 
