@@ -16,4 +16,12 @@ TBD
 
 ## Instruction on Running the Project
 
-TBD
+Running Airflow on local machine:
+
+```sh
+cp .env.local .env
+echo -e "AIRFLOW_UID=$(id -u)" >> .env
+mkdir -p mnt/dags mnt/logs mnt/plugins
+docker-compose build
+docker-compose up
+```
