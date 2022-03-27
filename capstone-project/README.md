@@ -4,6 +4,27 @@
 
 This projects builds an automated ETL/ELT data data pipeline. It aims to create a star schema optimized for queries on climate change with world bank country profile data analysis. We extract data from S3, process the data using Spark, save them in Parquet back into S3. Spark process is deployed on a cluster using AWS. At the end, we use the data stored in S3, stage them in Redshift, and transform them into a set of dimensional tables for further analysis.
 
+### Technologies
+
+* Apache Airflow for orchestrating workflow
+* Amazon EMR (Spark) for large data processing
+* Amazon S3 for data storage
+* Amazon Redshift for data warehousing and analysis
+
+### Future Design Considerations
+
+* The data was increased by 100x.
+
+  In this project, we have already used Amazon EMR, which is a  cloud big data platform for running large-scale distributed data processing jobs. This means we can scale our cluster up to add the processing power when the job gets too slow.
+
+* The data populates a dashboard that must be updated on a daily basis by 7am every day.
+
+  Here using Apache Airflow can be very useful since we can schedule our workflow to update the data used by a dashboard on a daily basis.
+
+* The database needed to be accessed by 100+ people.
+
+  Amazon Redshift can handle the connections up to 500 connections by default.
+
 ## Datasets
 
 * [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
