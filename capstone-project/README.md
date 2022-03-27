@@ -21,12 +21,14 @@ TBD
 | `mnt/plugins/` | An Airflow plugin folder that contains customer operators used in this project |
 | `spark/app/global_temperature_data_processing.py` | A Spark app that reads the global temperature data from CSV, runs ETL, and saves data in Parquet |
 | `spark/app/worldbank_data_processing.py` | A Spark app that reads the world bank country profile data from JSON, runs ETL, and saves data in Parquet |
-| `README.md` | README file that provides discussion on this project |
+| `create_tables.sql` | A SQL script to create tables |
 | `.env.local` | A environment file that contains the environment variables we want to override in `docker-compose.yaml` and `docker-compose-spark.yaml` |
 | `Dockerfile` | A Dockerfile that contains the instruction how to build an Airflow instance with Amazon EMR provider installed |
 | `docker-compose.yaml` | A Docker Compose file that runs an Airflow instance with Amazon EMR provider installed used in this project |
 | `Dockerfile-spark` | A Dockerfile that contains the instruction how to build an Airflow instance with Apache Spark provider installed |
 | `docker-compose-spark.yaml` | A Docker Compose file that runs an Airflow instance with Apache Spark provider installed |
+| `setup.cfg` | A configuration file for Flake8 |
+| `README.md` | README file that provides discussion on this project |
 
 ## Instruction on Running the Project
 
