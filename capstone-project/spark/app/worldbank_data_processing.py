@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 def process_data(spark, input_loc, output_loc):
     """
     - Processes the input data in JSON
-    - Writes the table to S3 in Parquet
+    - Writes the table to S3 in CSV
     """
     df = spark.read.json(input_loc)
 
@@ -14,7 +14,7 @@ def process_data(spark, input_loc, output_loc):
 
     spark.sql("select fields.* from worldbank_country_profile_df").write.mode(
         "overwrite"
-    ).parquet(output_loc)
+    ).csv(output_loc)
 
 
 if __name__ == "__main__":
