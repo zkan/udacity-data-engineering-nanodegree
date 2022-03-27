@@ -9,10 +9,6 @@ This projects builds an automated ETL/ELT data data pipeline. It aims to create 
 * [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
 * [World Bank Country Profile](https://public.opendatasoft.com/explore/dataset/worldbank-country-profile/table/?disjunctive.country_name&disjunctive.indicator_name&sort=-year)
 
-## Data Modeling
-
-TBD
-
 ## Files and What They Do
 
 | Name | Description |
