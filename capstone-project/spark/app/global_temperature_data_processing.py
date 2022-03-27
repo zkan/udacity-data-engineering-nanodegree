@@ -4,6 +4,10 @@ from pyspark.sql import SparkSession
 
 
 def process_data(spark, input_loc, output_loc):
+    """
+    - Processes the input data in CSV
+    - Writes the table to S3 in Parquet
+    """
     df = spark.read.option("header", True).csv(input_loc)
 
     df.createOrReplaceTempView("global_land_temperature_df")

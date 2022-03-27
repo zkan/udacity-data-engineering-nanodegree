@@ -4,6 +4,10 @@ from pyspark.sql import SparkSession
 
 
 def process_data(spark, input_loc, output_loc):
+    """
+    - Processes the input data in JSON
+    - Writes the table to S3 in Parquet
+    """
     df = spark.read.json(input_loc)
 
     df.createOrReplaceTempView("worldbank_country_profile_df")
