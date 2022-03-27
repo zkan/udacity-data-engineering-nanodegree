@@ -198,17 +198,17 @@ services:
     #  - ./spark/app:/usr/local/spark/app # Spark scripts folder (Must be the same path in airflow and Spark Cluster)
     #  - ./spark/resources:/usr/local/spark/resources #Resources folder (Must be the same path in airflow and Spark Cluster)
 
-  #pyspark-notebook:
-  #  image: jupyter/pyspark-notebook
-  #  volumes:
-  #    - ./notebooks:/home/jovyan/work
-  #    #- ./spark/resources/data:/home/jovyan/work/data/
-  #    #- ./spark/resources/jars:/home/jovyan/work/jars/
-  #  ports:
-  #    - 8888:8888
-  #    - 4040:4040
-  #    - 4041:4041
-  #
+  pyspark-notebook:
+   image: jupyter/pyspark-notebook
+   volumes:
+     - ./notebooks:/home/jovyan/work
+     #- ./spark/resources/data:/home/jovyan/work/data/
+     #- ./spark/resources/jars:/home/jovyan/work/jars/
+   ports:
+     - 8888:8888
+     - 4040:4040
+     - 4041:4041
+  
   #minio:
   #  image: minio/minio:RELEASE.2022-01-08T03-11-54Z
   #  environment:
