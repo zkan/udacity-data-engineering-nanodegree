@@ -173,6 +173,12 @@ with DAG(
         aws_conn_id=AWS_CONN_ID,
     )
 
+    terminate_emr_cluster = EmrTerminateJobFlowOperator(
+        task_id="terminate_emr_cluster",
+        job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
+        aws_conn_id=AWS_CONN_ID,
+    )
+
     stage_global_temperature_to_redshift = StageToRedshiftOperator(
         task_id="stage_global_temperature_to_redshift",
         redshift_conn_id="redshift",
@@ -189,12 +195,6 @@ with DAG(
         table="staging_worldbank",
         s3_bucket=BUCKET_NAME,
         s3_key=s3_worldbank_cleansed,
-    )
-
-    terminate_emr_cluster = EmrTerminateJobFlowOperator(
-        task_id="terminate_emr_cluster",
-        job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
-        aws_conn_id=AWS_CONN_ID,
     )
 
     (
