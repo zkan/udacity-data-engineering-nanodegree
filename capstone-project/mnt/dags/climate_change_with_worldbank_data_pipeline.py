@@ -185,7 +185,7 @@ with DAG(
         task_id="stage_global_temperature_to_redshift",
         redshift_conn_id="redshift",
         iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
-        table="staging_global_temperature",
+        table="global_temperature",
         s3_bucket=BUCKET_NAME,
         s3_key=s3_global_temperature_cleansed,
     )
@@ -194,7 +194,7 @@ with DAG(
         task_id="stage_worldbank_to_redshift",
         redshift_conn_id="redshift",
         iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
-        table="staging_worldbank",
+        table="worldbank",
         s3_bucket=BUCKET_NAME,
         s3_key=s3_worldbank_cleansed,
     )
