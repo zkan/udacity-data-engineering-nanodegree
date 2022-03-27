@@ -7,17 +7,23 @@ from airflow.providers.amazon.aws.operators.emr import (
 from airflow.providers.amazon.aws.sensors.emr_step import EmrStepSensor
 from airflow.utils import timezone
 
+from operators import (
+    StageToRedshiftOperator,
+)
+
 
 AWS_CONN_ID = "aws_default"
 BUCKET_NAME = "zkan-capstone-project"
 
-s3_global_temperature_data = "raw/global-temperature/GlobalLandTemperaturesByCity.csv"
+s3_global_temperature_data = "raw/global-temperature/GlobalLandTemperaturesByCity-small.csv"
+# s3_global_temperature_data = "raw/global-temperature/GlobalLandTemperaturesByCity.csv"
 s3_global_temperature_script = "scripts/global_temperature_data_processing.py"
 s3_global_temperature_cleansed = "cleansed/global_temperature/"
 hdfs_global_temperature_data = "/global_temperature_data"
 hdfs_global_temperature_output = "/global_temperature_output"
 
 s3_worldbank_data = "raw/worldbank/worldbank-country-profile-small.json"
+# s3_worldbank_data = "raw/worldbank/worldbank-country-profile.json"
 s3_worldbank_script = "scripts/worldbank_data_processing.py"
 s3_worldbank_cleansed = "cleansed/worldbank/"
 hdfs_worldbank_data = "/worldbank_data"
@@ -134,15 +140,6 @@ with DAG(
         },
     )
 
-    step_checker_for_global_temperature = EmrStepSensor(
-        task_id="watch_step_for_global_temperature",
-        job_flow_id="{{ task_instance.xcom_pull('create_emr_cluster', key='return_value') }}",
-        step_id="{{ task_instance.xcom_pull(task_ids='add_steps_for_global_temperature', key='return_value')["
-        + str(LAST_STEP)
-        + "] }}",
-        aws_conn_id=AWS_CONN_ID,
-    )
-
     step_adder_for_worldbank = EmrAddStepsOperator(
         task_id="add_steps_for_worldbank",
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
@@ -158,6 +155,15 @@ with DAG(
         },
     )
 
+    step_checker_for_global_temperature = EmrStepSensor(
+        task_id="watch_step_for_global_temperature",
+        job_flow_id="{{ task_instance.xcom_pull('create_emr_cluster', key='return_value') }}",
+        step_id="{{ task_instance.xcom_pull(task_ids='add_steps_for_global_temperature', key='return_value')["
+        + str(LAST_STEP)
+        + "] }}",
+        aws_conn_id=AWS_CONN_ID,
+    )
+
     step_checker_for_worldbank = EmrStepSensor(
         task_id="watch_step_worldbank",
         job_flow_id="{{ task_instance.xcom_pull('create_emr_cluster', key='return_value') }}",
@@ -165,6 +171,24 @@ with DAG(
         + str(LAST_STEP)
         + "] }}",
         aws_conn_id=AWS_CONN_ID,
+    )
+
+    stage_global_temperature_to_redshift = StageToRedshiftOperator(
+        task_id="stage_global_temperature_to_redshift",
+        redshift_conn_id="redshift",
+        iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
+        table="staging_global_temperature",
+        s3_bucket=BUCKET_NAME,
+        s3_key=s3_global_temperature_cleansed,
+    )
+
+    stage_worldbank_to_redshift = StageToRedshiftOperator(
+        task_id="stage_worldbank_to_redshift",
+        redshift_conn_id="redshift",
+        iam_role="arn:aws:iam::573529480358:role/myRedshiftRole",
+        table="staging_worldbank",
+        s3_bucket=BUCKET_NAME,
+        s3_key=s3_worldbank_cleansed,
     )
 
     terminate_emr_cluster = EmrTerminateJobFlowOperator(
@@ -185,3 +209,5 @@ with DAG(
         >> step_checker_for_worldbank
         >> terminate_emr_cluster
     )
+
+    terminate_emr_cluster >> [stage_global_temperature_to_redshift, stage_worldbank_to_redshift]
