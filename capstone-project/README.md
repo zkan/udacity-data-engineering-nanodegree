@@ -1,4 +1,4 @@
-# Climate Change with World Bank Country Profile Data Analysis Pipeline
+# Climate Change with World Bank Data Analysis Pipeline
 
 ## Project Overview
 
