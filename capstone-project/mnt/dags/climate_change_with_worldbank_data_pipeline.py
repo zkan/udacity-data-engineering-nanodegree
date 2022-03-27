@@ -26,14 +26,7 @@ hdfs_worldbank_output = "/worldbank_output"
 JOB_FLOW_OVERRIDES = {
     "Name": "Climate Change with World Bank Country Profile Data Processing",
     "ReleaseLabel": "emr-5.34.0",
-    "Applications": [
-        {
-            "Name": "Hadoop"
-        },
-        {
-            "Name": "Spark"
-        }
-    ],
+    "Applications": [{"Name": "Hadoop"}, {"Name": "Spark"}],
     "Configurations": [
         {
             "Classification": "spark-env",
@@ -117,7 +110,7 @@ default_args = {
 with DAG(
     "climate_change_with_worldbank_data_pipeline",
     default_args=default_args,
-    schedule_interval=None
+    schedule_interval=None,
 ) as dag:
 
     create_emr_cluster = EmrCreateJobFlowOperator(
@@ -145,8 +138,8 @@ with DAG(
         task_id="watch_step_for_global_temperature",
         job_flow_id="{{ task_instance.xcom_pull('create_emr_cluster', key='return_value') }}",
         step_id="{{ task_instance.xcom_pull(task_ids='add_steps_for_global_temperature', key='return_value')["
-            + str(LAST_STEP)
-            + "] }}",
+        + str(LAST_STEP)
+        + "] }}",
         aws_conn_id=AWS_CONN_ID,
     )
 
@@ -169,8 +162,8 @@ with DAG(
         task_id="watch_step_worldbank",
         job_flow_id="{{ task_instance.xcom_pull('create_emr_cluster', key='return_value') }}",
         step_id="{{ task_instance.xcom_pull(task_ids='add_steps_for_worldbank', key='return_value')["
-            + str(LAST_STEP)
-            + "] }}",
+        + str(LAST_STEP)
+        + "] }}",
         aws_conn_id=AWS_CONN_ID,
     )
 
@@ -180,5 +173,15 @@ with DAG(
         aws_conn_id=AWS_CONN_ID,
     )
 
-    create_emr_cluster >> step_adder_for_global_temperature >> step_checker_for_global_temperature >> terminate_emr_cluster
-    create_emr_cluster >> step_adder_for_worldbank >> step_checker_for_worldbank >> terminate_emr_cluster
+    (
+        create_emr_cluster
+        >> step_adder_for_global_temperature
+        >> step_checker_for_global_temperature
+        >> terminate_emr_cluster
+    )
+    (
+        create_emr_cluster
+        >> step_adder_for_worldbank
+        >> step_checker_for_worldbank
+        >> terminate_emr_cluster
+    )

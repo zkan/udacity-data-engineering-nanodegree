@@ -8,21 +8,21 @@ def process_data(spark, input_loc, output_loc):
 
     df.createOrReplaceTempView("worldbank_country_profile_df")
 
-    spark.sql("select fields.* from worldbank_country_profile_df") \
-        .write \
-        .mode("overwrite") \
-        .parquet(output_loc)
+    spark.sql("select fields.* from worldbank_country_profile_df").write.mode(
+        "overwrite"
+    ).parquet(output_loc)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, help="HDFS input", default="/worldbank_data")
-    parser.add_argument("--output", type=str, help="HDFS output", default="/worldbank_output")
+    parser.add_argument(
+        "--input", type=str, help="HDFS input", default="/worldbank_data"
+    )
+    parser.add_argument(
+        "--output", type=str, help="HDFS output", default="/worldbank_output"
+    )
     args = parser.parse_args()
 
-    spark = SparkSession \
-        .builder \
-        .appName("World Bank Data Processor") \
-        .getOrCreate()
+    spark = SparkSession.builder.appName("World Bank Data Processor").getOrCreate()
 
     process_data(spark, input_loc=args.input, output_loc=args.output)
