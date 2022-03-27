@@ -15,7 +15,9 @@ from operators import (
 AWS_CONN_ID = "aws_default"
 BUCKET_NAME = "zkan-capstone-project"
 
-s3_global_temperature_data = "raw/global-temperature/GlobalLandTemperaturesByCity-small.csv"
+s3_global_temperature_data = (
+    "raw/global-temperature/GlobalLandTemperaturesByCity-small.csv"
+)
 # s3_global_temperature_data = "raw/global-temperature/GlobalLandTemperaturesByCity.csv"
 s3_global_temperature_script = "scripts/global_temperature_data_processing.py"
 s3_global_temperature_cleansed = "cleansed/global_temperature/"
@@ -210,4 +212,7 @@ with DAG(
         >> terminate_emr_cluster
     )
 
-    terminate_emr_cluster >> [stage_global_temperature_to_redshift, stage_worldbank_to_redshift]
+    terminate_emr_cluster >> [
+        stage_global_temperature_to_redshift,
+        stage_worldbank_to_redshift,
+    ]
