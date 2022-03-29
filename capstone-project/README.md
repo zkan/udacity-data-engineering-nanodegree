@@ -11,6 +11,14 @@ This projects builds an automated ETL/ELT data data pipeline. It aims to create 
 * Amazon S3 for data storage
 * Amazon Redshift for data warehousing and analysis
 
+### Data Modeling
+
+In this project, we'll have two data models as show in the figure below.
+
+![Global Temperature and World Bank Data Modeling](./img/de-capsone-data-model.png)
+
+The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
+
 ### Future Design Considerations
 
 * The data was increased by 100x.
