@@ -8,6 +8,7 @@ from airflow.providers.amazon.aws.sensors.emr_step import EmrStepSensor
 from airflow.utils import timezone
 
 from operators import (
+    DataQualityOperator,
     StageToRedshiftOperator,
 )
 
@@ -199,6 +200,37 @@ with DAG(
         s3_key=s3_worldbank_cleansed,
     )
 
+    run_quality_checks = DataQualityOperator(
+        task_id="run_data_quality_checks",
+        redshift_conn_id="redshift",
+        checks=[
+            {
+                "test_case": "Column dt in table global_temperature should not have NULL values",
+                "test_sql": "SELECT COUNT(dt) FROM global_temperature WHERE dt IS NULL",
+                "expected_result": 0,
+                "comparison": "=",
+            },
+            {
+                "test_case": "Column AverageTemperature in table global_temperature should not have values greater than 100",  # noqa
+                "test_sql": "SELECT MAX(AverageTemperature) FROM global_temperature",
+                "expected_result": 100,
+                "comparison": "<",
+            },
+            {
+                "test_case": "Table worldbank should have records",
+                "test_sql": "SELECT COUNT(*) FROM worldbank",
+                "expected_result": 0,
+                "comparison": ">",
+            },
+            {
+                "test_case": "Column value in table worldbank should not have NULL values",
+                "test_sql": "SELECT COUNT(value) FROM worldbank WHERE value IS NULL",
+                "expected_result": 0,
+                "comparison": "=",
+            },
+        ],
+    )
+
     (
         create_emr_cluster
         >> step_adder_for_global_temperature
@@ -212,7 +244,11 @@ with DAG(
         >> terminate_emr_cluster
     )
 
-    terminate_emr_cluster >> [
-        stage_global_temperature_to_redshift,
-        stage_worldbank_to_redshift,
-    ]
+    (
+        terminate_emr_cluster
+        >> [
+            stage_global_temperature_to_redshift,
+            stage_worldbank_to_redshift,
+        ]
+        >> run_quality_checks
+    )
