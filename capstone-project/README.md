@@ -25,6 +25,8 @@ The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
 
   In this project, we have already used Amazon EMR, which is a  cloud big data platform for running large-scale distributed data processing jobs. This means we can scale our cluster up to add the processing power when the job gets too slow.
 
+  We could store the data in Parquet format instead of CSV to save disk space and cost. We can also partition the data by date or country, which depends on how we query the data to answer business questions.
+
 * The data populates a dashboard that must be updated on a daily basis by 7am every day.
 
   Here using Apache Airflow can be very useful since we can schedule our workflow to update the data used by a dashboard on a daily basis.
