@@ -4,12 +4,10 @@
 
 This projects builds an automated ETL/ELT data data pipeline. It aims to create a star schema optimized for queries on climate change with world bank country profile data analysis. We extract data from S3, process the data using Spark, save them in Parquet back into S3. Spark process is deployed on a cluster using AWS. At the end, we use the data stored in S3, stage them in Redshift, and transform them into a set of dimensional tables for further analysis.
 
-### Technologies
+## Datasets
 
-* Apache Airflow for orchestrating workflow
-* Amazon EMR (Spark) for large data processing
-* Amazon S3 for data storage
-* Amazon Redshift for data warehousing and analysis
+* [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
+* [World Bank Country Profile](https://public.opendatasoft.com/explore/dataset/worldbank-country-profile/table/?disjunctive.country_name&disjunctive.indicator_name&sort=-year)
 
 ### Data Modeling
 
@@ -18,6 +16,38 @@ In this project, we'll have two data models as show in the figure below.
 ![Global Temperature and World Bank Data Modeling](./img/de-capsone-data-model.png)
 
 The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
+
+### Data Dictionary
+
+#### Global Temperature
+
+| Name | Type | Description |
+| - | - | - |
+| dt | date | Date |
+| AverageTemperature | decimal | Average land temperature in celsius |
+| AverageTemperatureUncertainty | decimal | The 95% confidence interval around the average  |
+| city | varchar(256) | City |
+| country | varchar(256) | Country |
+| latitude | varchar(256) | Latitude of the city |
+| longitude | varchar(256) | Longitude of the city |
+
+#### World Bank Country Profile
+
+| Name | Type | Description |
+| - | - | - |
+| country_code | varchar(256) | Country code |
+| country_name | varchar(256) | Country name |
+| indicator_code | varchar(256) | Indicator code |
+| indicator_name | varchar(256) | Indicator name |
+| value | decimal | Value of the indicator |
+| year | int | Year |
+
+### Technologies
+
+* Apache Airflow for orchestrating workflow
+* Amazon EMR (Spark) for large data processing
+* Amazon S3 for data storage
+* Amazon Redshift for data warehousing and analysis
 
 ### Future Design Considerations
 
@@ -34,11 +64,6 @@ The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
 * The database needed to be accessed by 100+ people.
 
   Amazon Redshift can handle the connections up to 500 connections by default.
-
-## Datasets
-
-* [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
-* [World Bank Country Profile](https://public.opendatasoft.com/explore/dataset/worldbank-country-profile/table/?disjunctive.country_name&disjunctive.indicator_name&sort=-year)
 
 ## Files and What They Do
 
