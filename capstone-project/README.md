@@ -17,6 +17,25 @@ In this project, we'll have two data models as show in the figure below.
 
 The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
 
+We can use an SQL query to address business questions that provide insights into important decisions. For example, if we want to see if the increase of the land temperature has any impact on the indicators in Denmark or not, we can query like this:
+
+```sql
+SELECT
+  g.AverageTemperature,
+  g.AverageTemperatureUncertainty,
+  w.indicator_name,
+  w.value,
+  EXTRACT(YEAR FROM g.dt) AS year
+FROM
+  global_temperature g
+JOIN
+  worldbank w
+ON
+  EXTRACT(YEAR FROM g.dt) = w.year
+  AND g.country = w.country
+  AND g.country = "Denmark"
+```
+
 ### Data Dictionary
 
 #### Global Temperature
