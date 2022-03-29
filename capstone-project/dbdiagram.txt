@@ -1,0 +1,19 @@
+Table global_temperature as G {
+  dt date [pk]
+  AverageTemperature decimal
+  AverageTemperatureUncertainty decimal
+  city varchar(256)
+  country varchar(256)
+  latitude varchar(256)
+  longitude varchar(256)
+}
+
+Table worldbank as W {
+  id int [pk, increment]
+  country_code varchar(250)
+  country_name varchar(250)
+  indicator_code varchar(250)
+  indicator_name varchar(250)
+  value decimal
+  year int4
+}
