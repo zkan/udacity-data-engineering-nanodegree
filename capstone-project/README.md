@@ -9,7 +9,7 @@ This projects builds an automated ETL/ELT data data pipeline. It aims to create 
 * [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
 * [World Bank Country Profile](https://public.opendatasoft.com/explore/dataset/worldbank-country-profile/table/?disjunctive.country_name&disjunctive.indicator_name&sort=-year)
 
-### Data Modeling
+## Data Modeling
 
 In this project, we'll have two data models as show in the figure below.
 
@@ -54,9 +54,9 @@ Here is a part of the result from the query above:
 | Thailand | 2013 | 29.07528 | 0.442128 | Unemployment, youth male (% of male labor force ages 15-24) (modeled ILO estimate) | 0.91 |
 | ... |
 
-### Data Dictionary
+## Data Dictionary
 
-#### Global Temperature
+### Global Temperature
 
 | Name | Type | Description |
 | - | - | - |
@@ -68,7 +68,7 @@ Here is a part of the result from the query above:
 | latitude | varchar(256) | Latitude of the city |
 | longitude | varchar(256) | Longitude of the city |
 
-#### World Bank Country Profile
+### World Bank Country Profile
 
 | Name | Type | Description |
 | - | - | - |
@@ -80,14 +80,23 @@ Here is a part of the result from the query above:
 | value | decimal | Value of the indicator |
 | year | int | Year |
 
-### Technologies
+## Data Quality Checks
+
+To ensure the data quality, we'll run the data quality checks to make sure that
+
+* Column `dt` in table `global_temperature` should *not* have NULL values
+* Column `AverageTemperature` in table `global_temperature` should *not* have values greater than 100
+* Table `worldbank` should have records
+* Column `value` in table `worldbank` should *not* have NULL values
+
+## Technologies
 
 * Apache Airflow for orchestrating workflow
 * Amazon EMR (Spark) for large data processing
 * Amazon S3 for data storage
 * Amazon Redshift for data warehousing and analysis
 
-### Future Design Considerations
+## Future Design Considerations
 
 * The data was increased by 100x.
 
