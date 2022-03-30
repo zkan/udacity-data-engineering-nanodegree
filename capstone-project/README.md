@@ -60,7 +60,7 @@ Here is a part of the result from the query above:
 
 | Name | Type | Description |
 | - | - | - |
-| dt | date | Date |
+| dt | date | Date (as primary key) |
 | AverageTemperature | decimal | Average land temperature in celsius |
 | AverageTemperatureUncertainty | decimal | The 95% confidence interval around the average  |
 | city | varchar(256) | City |
@@ -72,6 +72,7 @@ Here is a part of the result from the query above:
 
 | Name | Type | Description |
 | - | - | - |
+| id | int | ID (as primary key) |
 | country_code | varchar(256) | Country code |
 | country_name | varchar(256) | Country name |
 | indicator_code | varchar(256) | Indicator code |
