@@ -33,7 +33,7 @@ JOIN
   worldbank w
 ON
   EXTRACT(YEAR FROM g.dt) = g.year
-  AND g.country = w.country
+  AND g.country = w.country_name
 WHERE
   g.country = "Thailand"
 GROUP BY

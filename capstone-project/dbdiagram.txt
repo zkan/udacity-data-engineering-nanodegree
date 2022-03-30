@@ -17,3 +17,6 @@ Table worldbank as W {
   value decimal
   year int4
 }
+
+Ref: G.dt > W.year
+Ref: G.country > W.country_name
