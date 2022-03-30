@@ -1,6 +1,6 @@
 # Climate Change with World Bank Data Analysis Pipeline
 
-**Table of Content**
+**Table of Contents**
 
 * [Project Overview](#project-overview)
 * [Datasets](#datasets)
