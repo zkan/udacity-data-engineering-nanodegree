@@ -17,24 +17,42 @@ In this project, we'll have two data models as show in the figure below.
 
 The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
 
-We can use an SQL query to address business questions that provide insights into important decisions. For example, if we want to see if the increase of the land temperature has any impact on the indicators in Denmark or not, we can query like this:
+We can use an SQL query to address business questions that provide insights into important decisions. For example, if we want to see if the increase of the land temperature has any impact on the indicators in Thailand or not, we can query like this:
 
 ```sql
 SELECT
-  g.AverageTemperature,
-  g.AverageTemperatureUncertainty,
-  w.indicator_name,
-  w.value,
-  EXTRACT(YEAR FROM g.dt) AS year
+  g.country,
+  EXTRACT(YEAR FROM g.dt) AS year,
+  AVG(g.AverageTemperature) AS average_temperature,
+  AVG(g.AverageTemperatureUncertainty) AS average_temperature_uncertainty,
+  w.indicator_name AS indicator_name,
+  AVG(w.value) AS indicator_value
 FROM
   global_temperature g
 JOIN
   worldbank w
 ON
-  EXTRACT(YEAR FROM g.dt) = w.year
+  EXTRACT(YEAR FROM g.dt) = g.year
   AND g.country = w.country
-  AND g.country = "Denmark"
+WHERE
+  g.country = "Thailand"
+GROUP BY
+  g.country,
+  EXTRACT(YEAR FROM g.dt),
+  w.indicator_name
 ```
+
+Here is a part of the result from the query above:
+
+| country | year | average_temperature | average_temperature_uncertainty | indicator_name | indicator_value |
+| - | - | - | - | - | - |
+| ... |
+| Thailand | 2012 | 28.48466 | 0.344408 | Employment to population ratio, ages 15-24, male (%) (modeled ILO estimate) | 53.51 |
+| Thailand | 2012 | 28.48466 | 0.344408 | Out-of-pocket expenditure per capita (current US$) | 27.71143723 |
+| Thailand | 2013 | 29.07528 | 0.442128 | Labor force participation rate for ages 15-24, total (%) (modeled ILO estimate) | 43.39 |
+| Thailand | 2013 | 29.07528 | 0.442128 | Labor force participation rate for ages 15-24, female (%) (modeled ILO estimate) | 34.21 |
+| Thailand | 2013 | 29.07528 | 0.442128 | Unemployment, youth male (% of male labor force ages 15-24) (modeled ILO estimate) | 0.91 |
+| ... |
 
 ### Data Dictionary
 
