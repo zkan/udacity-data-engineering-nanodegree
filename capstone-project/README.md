@@ -1,5 +1,18 @@
 # Climate Change with World Bank Data Analysis Pipeline
 
+**Table of Content**
+
+* [Project Overview](#project-overview)
+* [Datasets](#datasets)
+* [Data Modeling](#data-modeling)
+* [Data Dictionary](#data-dictionary)
+* [Data Quality Checks](#data-quality-checks)
+* [Technologies](#technologies)
+* [Future Design Considerations](#future-design-considerations)
+* [Files and What They Do](#files-and-what-they-do)
+* [Instruction on Running the Project](#instruction-on-running-the-project)
+
+
 ## Project Overview
 
 This projects builds an automated ETL/ELT data data pipeline. It aims to create a star schema optimized for queries on climate change with world bank country profile data analysis. We extract data from S3, process the data using Spark, save them in Parquet back into S3. Spark process is deployed on a cluster using AWS. At the end, we use the data stored in S3, stage them in Redshift, and transform them into a set of dimensional tables for further analysis.
