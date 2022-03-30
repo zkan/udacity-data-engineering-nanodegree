@@ -15,7 +15,12 @@
 
 ## Project Overview
 
-This projects builds an automated ETL/ELT data data pipeline. It aims to create a star schema optimized for queries on climate change with world bank country profile data analysis. We extract data from S3, process the data using Spark, save them in Parquet back into S3. Spark process is deployed on a cluster using AWS. At the end, we use the data stored in S3, stage them in Redshift, and transform them into a set of dimensional tables for further analysis.
+This projects builds an automated ETL/ELT data data pipeline. It aims to create
+a star schema optimized for queries on climate change with world bank country
+profile data analysis. We extract data from S3, process the data using Spark,
+save them in Parquet back into S3. Spark process is deployed on a cluster using
+AWS. At the end, we use the data stored in S3, stage them in Redshift, and
+transform them into a set of dimensional tables for further analysis.
 
 ## Datasets
 
@@ -30,7 +35,10 @@ In this project, we'll have two data models as show in the figure below.
 
 The data model diagram is created by [dbdiagram.io](https://dbdiagram.io/).
 
-We can use an SQL query to address business questions that provide insights into important decisions. For example, if we want to see if the increase of the land temperature has any impact on the indicators in Thailand or not, we can query like this:
+We can use an SQL query to address business questions that provide insights
+into important decisions. For example, if we want to see if the change of the
+land temperature has any impact on the indicators in Thailand or not, we can
+query like this:
 
 ```sql
 SELECT
@@ -113,13 +121,19 @@ To ensure the data quality, we'll run the data quality checks to make sure that
 
 * The data was increased by 100x.
 
-  In this project, we have already used Amazon EMR, which is a  cloud big data platform for running large-scale distributed data processing jobs. This means we can scale our cluster up to add the processing power when the job gets too slow.
+  In this project, we have already used Amazon EMR, which is a  cloud big data
+  platform for running large-scale distributed data processing jobs. This means
+  we can scale our cluster up to add the processing power when the job gets too
+  slow.
 
-  We could store the data in Parquet format instead of CSV to save disk space and cost. We can also partition the data by date or country, which depends on how we query the data to answer business questions.
+  We could store the data in Parquet format instead of CSV to save disk space
+  and cost. We can also partition the data by date or country, which depends on
+  how we query the data to answer business questions.
 
 * The data populates a dashboard that must be updated on a daily basis by 7am every day.
 
-  Here using Apache Airflow can be very useful since we can schedule our workflow to update the data used by a dashboard on a daily basis.
+  Here using Apache Airflow can be very useful since we can schedule our
+  workflow to update the data used by a dashboard on a daily basis.
 
 * The database needed to be accessed by 100+ people.
 
