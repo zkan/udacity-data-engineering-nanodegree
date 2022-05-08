@@ -13,7 +13,9 @@ from operators import (
 )
 
 
+# We'll need to set {"region_name": "us-east-1"} in Extra for AWS Conn too
 AWS_CONN_ID = "aws_default"
+EMR_CONN_ID = "emr_default"
 BUCKET_NAME = "zkan-capstone-project"
 
 s3_global_temperature_data = (
@@ -126,7 +128,7 @@ with DAG(
         task_id="create_emr_cluster",
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id=AWS_CONN_ID,
-        emr_conn_id=AWS_CONN_ID,
+        emr_conn_id=EMR_CONN_ID,
     )
 
     step_adder_for_global_temperature = EmrAddStepsOperator(
