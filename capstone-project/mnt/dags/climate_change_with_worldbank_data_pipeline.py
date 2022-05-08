@@ -126,6 +126,7 @@ with DAG(
         task_id="create_emr_cluster",
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id=AWS_CONN_ID,
+        emr_conn_id=AWS_CONN_ID,
     )
 
     step_adder_for_global_temperature = EmrAddStepsOperator(
