@@ -15,7 +15,7 @@
 
 ## Project Overview
 
-This projects builds an automated ETL/ELT data pipeline. It aims to create
+This project builds an automated ETL/ELT data pipeline. It aims to create
 a star schema optimized for queries on climate change with world bank country
 profile data analysis. We extract data from S3, process the data using Spark,
 save them in Parquet back into S3. Spark process is deployed on a cluster using
